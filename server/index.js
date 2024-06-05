@@ -26,7 +26,7 @@ app.use(cors({
     // 'http://localhost:5176',
     // 'http://localhost:5175',
 
-    'https://hms-hodx69dgv-raza69s-projects.vercel.app',
+    'https://hms-virid.vercel.app',
     'https://hms-admin-one.vercel.app'
   ],
   credentials: true,

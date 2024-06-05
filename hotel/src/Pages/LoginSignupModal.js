@@ -31,7 +31,7 @@ const LoginSignupModal = ({ show, onHide, onLogin }) => {
       return;
     }
 
-    const url = isLogin ? 'http://localhost:5001/api/login' : 'http://localhost:5001/api/register';
+    const url = isLogin ? '${apiBaseUrl}/api/login' : '${apiBaseUrl}/api/register';
     const data = { email: formData.email, password: formData.password };
 
     try {
