@@ -31,7 +31,8 @@ const LoginSignupModal = ({ show, onHide, onLogin }) => {
       return;
     }
 
-    const url = isLogin ? '${apiBaseUrl}/api/login' : '${apiBaseUrl}/api/register';
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const url = isLogin ? `${apiBaseUrl}/api/login` : `${apiBaseUrl}/api/register`;
     const data = { email: formData.email, password: formData.password };
 
     try {
@@ -120,7 +121,7 @@ const LoginSignupModal = ({ show, onHide, onLogin }) => {
     padding: '10px',
     marginBottom: '10px',
     borderRadius: '2px',
-    border: '1px solid ccc',
+    border: '1px solid #ccc', // Corrected from `ccc` to `#ccc`
   };
 
   const toggleButtonContainerStyles = {
