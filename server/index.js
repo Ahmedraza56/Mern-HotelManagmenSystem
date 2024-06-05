@@ -20,7 +20,8 @@ app.use('/uploads', express.static('uploads'));
 // CORS configuration
 app.use(cors({
   origin: [
-    'https://hms-hodx69dgv-raza69s-projects.vercel.app'
+    'https://hms-virid.vercel.app',
+    'https://hms-admin-one.vercel.app' 
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
