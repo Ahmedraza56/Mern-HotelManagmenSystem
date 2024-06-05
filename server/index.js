@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const nodemailer = require('nodemailer');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 const path = require('path');
 require('dotenv').config();
 const cors = require('cors');
@@ -20,25 +20,18 @@ app.use('/uploads', express.static('uploads'));
 // CORS configuration
 app.use(cors({
   origin: [
-    // 'http://localhost:5173',
-    // 'http://localhost:5174',
-    // 'http://localhost:3000',
-    // 'http://localhost:5176',
-    // 'http://localhost:5175',
-
     'https://hms-virid.vercel.app',
     'https://hms-admin-one.vercel.app',
-    'https://hms-api-steel.vercel.app/'
-    
+    'https://hms-api-steel.vercel.app'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+// Handle preflight requests for all routes
 app.options('*', cors());
 
-// Multer setup for image upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
@@ -58,7 +51,6 @@ mongoose.connect(process.env.MONGODB_URI, {
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// User schema and model
 const userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
@@ -67,7 +59,6 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// Feedback schema and model
 const feedbackSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -78,7 +69,6 @@ const feedbackSchema = new mongoose.Schema({
 
 const Feedback = mongoose.model('Feedback', feedbackSchema);
 
-// Room schema and model
 const roomSchema = new mongoose.Schema({
   number: Number,
   type: String,
@@ -90,7 +80,6 @@ const roomSchema = new mongoose.Schema({
 
 const Room = mongoose.model('Room', roomSchema);
 
-// Staff schema and model
 const staffSchema = new mongoose.Schema({
   name: String,
   designation: String,
@@ -100,7 +89,6 @@ const staffSchema = new mongoose.Schema({
 
 const Staff = mongoose.model('Staff', staffSchema);
 
-// ReservedRoom schema and model
 const reservedRoomSchema = new mongoose.Schema({
   arrivalDate: Date,
   departureDate: Date,
@@ -122,7 +110,6 @@ const contactSchema = new mongoose.Schema({
 
 const Contact = mongoose.model('Contact', contactSchema);
 
-// Register endpoint
 app.post('/api/register', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -148,7 +135,6 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// Admin login endpoint
 app.post('/api/admin/login', asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -175,10 +161,6 @@ app.post('/api/admin/login', asyncHandler(async (req, res) => {
   return res.json({ token, status: true, message: "Login successfully", role: user.role });
 }));
 
-
-
-// General user login endpoint
-
 app.post('/api/login', asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -196,20 +178,16 @@ app.post('/api/login', asyncHandler(async (req, res) => {
     return res.status(400).json({ message: 'Invalid email or password' });
   }
 
-  // Generate JWT token
   const token = jwt.sign({ username: user.username, role: user.role }, process.env.KEY);
   console.log("token:", token);
 
   res.status(200).json({ token, message: 'Login successful', role: user.role });
 }));
 
-
-// Logout endpoint
 app.post('/api/logout', (req, res) => {
   res.status(200).json({ message: 'Logout successful' });
 });
 
-// Add room endpoint
 app.post('/api/addroom', upload.single('image'), async (req, res) => {
   try {
     const { number, type, accommodation, price } = req.body;
@@ -229,7 +207,6 @@ app.post('/api/addroom', upload.single('image'), async (req, res) => {
   }
 });
 
-// Fetch all rooms endpoint
 app.get('/api/rooms', async (req, res) => {
   try {
     const rooms = await Room.find();
@@ -240,7 +217,6 @@ app.get('/api/rooms', async (req, res) => {
   }
 });
 
-// Update room status endpoint
 app.patch('/api/rooms/:id', async (req, res) => {
   try {
     const { status } = req.body;
@@ -252,7 +228,6 @@ app.patch('/api/rooms/:id', async (req, res) => {
   }
 });
 
-// Edit room endpoint
 app.put('/api/rooms/:id', upload.single('image'), async (req, res) => {
   try {
     const { number, type, accommodation, status, price } = req.body;
@@ -274,7 +249,6 @@ app.put('/api/rooms/:id', upload.single('image'), async (req, res) => {
   }
 });
 
-// Delete room endpoint
 app.delete('/api/rooms/:id', async (req, res) => {
   try {
     await Room.findByIdAndDelete(req.params.id);
@@ -285,7 +259,6 @@ app.delete('/api/rooms/:id', async (req, res) => {
   }
 });
 
-// Add staff endpoint
 app.post('/api/addstaff', async (req, res) => {
   try {
     const { name, designation, age, salary } = req.body;
@@ -299,7 +272,6 @@ app.post('/api/addstaff', async (req, res) => {
   }
 });
 
-// Fetch all staff endpoint
 app.get('/api/staff', async (req, res) => {
   try {
     const staff = await Staff.find();
@@ -310,7 +282,6 @@ app.get('/api/staff', async (req, res) => {
   }
 });
 
-// Edit staff endpoint
 app.put('/api/staff/:id', async (req, res) => {
   try {
     const { name, designation, age, salary } = req.body;
@@ -323,7 +294,6 @@ app.put('/api/staff/:id', async (req, res) => {
   }
 });
 
-// Delete staff endpoint
 app.delete('/api/staff/:id', async (req, res) => {
   try {
     await Staff.findByIdAndDelete(req.params.id);
@@ -334,7 +304,6 @@ app.delete('/api/staff/:id', async (req, res) => {
   }
 });
 
-// Reserved room endpoint
 app.post('/api/reservedroom', async (req, res) => {
   try {
     const { arrivalDate, departureDate, email, message, room } = req.body;
@@ -359,7 +328,6 @@ app.post('/api/reservedroom', async (req, res) => {
 
     await newReservation.save();
 
-    // Send email
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -404,7 +372,6 @@ The Luxury Hotel Team`
   }
 });
 
-// Fetch all reserved rooms endpoint
 app.get('/api/reservedrooms', async (req, res) => {
   try {
     const reservedRooms = await ReservedRoom.find().populate('room');
@@ -415,7 +382,6 @@ app.get('/api/reservedrooms', async (req, res) => {
   }
 });
 
-// Delete reserved room endpoint
 app.delete('/api/reservedrooms/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -427,12 +393,10 @@ app.delete('/api/reservedrooms/:id', async (req, res) => {
   }
 });
 
-// Add feedback endpoint
 app.post('/api/feedback', async (req, res) => {
   try {
     const { name, email, rating, message } = req.body;
 
-    // Validate input
     if (!name || !email || !rating || !message) {
       return res.status(400).json({ message: 'All fields are required' });
     }
@@ -447,10 +411,9 @@ app.post('/api/feedback', async (req, res) => {
   }
 });
 
-// Fetch all feedback endpoint
 app.get('/api/feedback', async (req, res) => {
   try {
-    const feedbacks = await Feedback.find().sort({ createdAt: -1 }); // Sort by createdAt in descending order
+    const feedbacks = await Feedback.find().sort({ createdAt: -1 });
     res.status(200).json(feedbacks);
   } catch (error) {
     console.error('Fetch feedback error:', error);
@@ -458,7 +421,6 @@ app.get('/api/feedback', async (req, res) => {
   }
 });
 
-// Endpoint to handle contact form submissions
 app.post('/api/contact', async (req, res) => {
   try {
     const { name, phone, email, message } = req.body;
@@ -467,11 +429,9 @@ app.post('/api/contact', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Save the contact message to the database
     const newContact = new Contact({ name, phone, email, message });
     await newContact.save();
 
-    // Send confirmation email to the user
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
