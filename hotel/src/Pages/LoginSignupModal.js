@@ -32,7 +32,7 @@ const LoginSignupModal = ({ show, onHide, onLogin }) => {
     }
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-    const url = isLogin ? `https://hms-api-steel.vercel.app/api/login` : `https://hms-api-steel.vercel.app/api/register`;
+    const url = isLogin ? `/api/login` : `/api/register`;
     const data = { email: formData.email, password: formData.password };
 
     try {
