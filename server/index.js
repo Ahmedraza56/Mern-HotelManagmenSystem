@@ -27,7 +27,9 @@ app.use(cors({
     // 'http://localhost:5175',
 
     'https://hms-virid.vercel.app',
-    'https://hms-admin-one.vercel.app'
+    'https://hms-admin-one.vercel.app',
+    'https://hms-api-steel.vercel.app/'
+    
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
