@@ -18,7 +18,7 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
 // CORS configuration
-app.use(cors({
+const corsOptions = {
   origin: [
     'https://hms-virid.vercel.app',
     'https://hms-admin-one.vercel.app',
@@ -27,10 +27,11 @@ app.use(cors({
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
-}));
+};
+app.use(cors(corsOptions));
 
 // Handle preflight requests for all routes
-app.options('*', cors());
+app.options('*', cors(corsOptions));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
