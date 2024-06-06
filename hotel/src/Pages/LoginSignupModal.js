@@ -129,7 +129,7 @@ const LoginSignupModal = ({ show, onHide, onLogin }) => {
     padding: '10px',
     marginBottom: '10px',
     borderRadius: '2px',
-    border: '1px solid #ccc', // Corrected from `ccc` to `#ccc`
+    border: '1px solid #ccc',
   };
 
   const toggleButtonContainerStyles = {
