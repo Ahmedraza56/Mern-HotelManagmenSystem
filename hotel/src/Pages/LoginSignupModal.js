@@ -36,7 +36,7 @@ const LoginSignupModal = ({ show, onHide, onLogin }) => {
     const data = { email: formData.email, password: formData.password };
 
     try {
-      const response = await axios.post(url, data);
+      const response = await axios.post(url, data, { withCredentials: true });
       console.log('Response:', response); // Log the response
       setMessage(response.data.message);
       if (response.status === 200 && isLogin) {
