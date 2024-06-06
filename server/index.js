@@ -22,7 +22,7 @@ const corsOptions = {
   origin: [
     //'https://hms-virid.vercel.app',
     //'https://hms-admin-one.vercel.app',
-    'https://hms-api-steel.vercel.apphms-r0kmeazez-raza69s-projects.vercel.app'
+    'https://hms-api-steel.vercel.app'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
