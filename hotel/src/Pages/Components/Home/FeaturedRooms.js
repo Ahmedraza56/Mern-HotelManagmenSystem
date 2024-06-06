@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const FeaturedRooms = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Replace with actual authentication check
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthentication = () => {
+      // Replace with actual authentication check logic
+      const token = localStorage.getItem('token'); // Example: checking a token in localStorage
+      if (token) {
+        setIsAuthenticated(true);
+      }
+    };
+
+    checkAuthentication();
+  }, []);
 
   const handleBooking = (path) => {
     if (isAuthenticated) {

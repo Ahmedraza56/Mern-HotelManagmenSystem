@@ -3,13 +3,20 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-
 const RoomSection = () => {
   const [rooms, setRooms] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Replace with actual authentication check
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const checkAuthentication = () => {
+      // Replace with actual authentication check logic
+      const token = localStorage.getItem('token'); // Example: checking a token in localStorage
+      if (token) {
+        setIsAuthenticated(true);
+      }
+    };
+
     const fetchRooms = async () => {
       try {
         const response = await axios.get('http://localhost:5001/api/rooms');
@@ -19,6 +26,7 @@ const RoomSection = () => {
       }
     };
 
+    checkAuthentication();
     fetchRooms();
   }, []);
 
@@ -84,4 +92,3 @@ const RoomSection = () => {
 };
 
 export default RoomSection;
-
