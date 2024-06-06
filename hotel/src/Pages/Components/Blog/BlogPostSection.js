@@ -43,8 +43,10 @@ const BlogPostSection = () => {
         console.log('Feedback submitted:', data);
         Swal.fire('Thank you!', 'Your feedback has been submitted.', 'success');
         // Update feedbacks state to include the new feedback
-        setFeedbacks([data, ...feedbacks]);
-      })
+        setTimeout(function() {
+          window.location.reload();
+      }, 2000);
+          })
       .catch((error) => {
         console.error('Error submitting feedback:', error);
         Swal.fire('Error', 'There was an issue submitting your feedback.', 'error');

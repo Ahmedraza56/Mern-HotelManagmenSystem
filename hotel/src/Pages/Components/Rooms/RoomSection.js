@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 
 const RoomSection = () => {
   const [rooms, setRooms] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Replace with actual authentication check
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -16,6 +21,18 @@ const RoomSection = () => {
 
     fetchRooms();
   }, []);
+
+  const handleBooking = (path) => {
+    if (isAuthenticated) {
+      navigate(path);
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'You need to be logged in to access this page!',
+      });
+    }
+  };
 
   const imgStyles = {
     width: '100%',
@@ -55,7 +72,7 @@ const RoomSection = () => {
                   <p>{room.status || 'N/A'}</p>
                   </ul>
                   <p>{room.accommodation || 'No description available.'}</p>
-                  <p><a href="/BookNow" className="btn btn-primary btn-sm">Book Now From ${room.price || 'N/A'}</a></p>
+                  <p><button onClick={() => handleBooking('/BookNow')} className="btn btn-primary btn-sm">Book Now From ${room.price || 'N/A'}</button></p>
                 </div>
               </div>
             </div>
@@ -67,3 +84,4 @@ const RoomSection = () => {
 };
 
 export default RoomSection;
+
