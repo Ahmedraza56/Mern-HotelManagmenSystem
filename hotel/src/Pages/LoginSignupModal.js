@@ -32,6 +32,8 @@ const LoginSignupModal = ({ show, onHide, onLogin }) => {
     }
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    console.log('API Base URL:', apiBaseUrl);  // Debugging line
+
     if (!apiBaseUrl) {
       console.error('API base URL is not defined');
       setMessage('Server configuration error');
