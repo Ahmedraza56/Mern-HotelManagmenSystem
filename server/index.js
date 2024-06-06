@@ -20,7 +20,7 @@ app.use('/uploads', express.static('uploads'));
 // CORS configuration
 const corsOptions = {
   origin: [
-    'https://hms-virid.vercel.app',   // Your frontend origin
+    'https://hms-virid.vercel.app',  // Your frontend origin
     'https://hms-admin-one.vercel.app' // Another allowed origin if needed
   ],
   credentials: true,
